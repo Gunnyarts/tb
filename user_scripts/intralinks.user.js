@@ -211,7 +211,7 @@
   }
   `
   let style = document.createElement("style")
-  style.textContent(style_content)
+  style.textContent = style_content
   document.body.appendChild(style)
 
 })();
