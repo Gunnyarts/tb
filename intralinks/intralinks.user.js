@@ -4,6 +4,8 @@
 // @description  Convenient links in the left side menu
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
+// @updateURL    http://gunnyarts.github.io/tb/intralinks/intralinks.user.js
+// @downloadURL    http://gunnyarts.github.io/tb/intralinks/intralinks.user.js
 // @grant        none
 // ==/UserScript==
 
