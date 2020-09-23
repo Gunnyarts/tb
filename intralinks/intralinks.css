@@ -1,0 +1,64 @@
+#quickBar {position:relative}
+#quickBar > ul {display: flex; padding: 5px; flex-flow:row wrap;}
+#quickBar > ul > li {display: flex; flex: 1 25%;}
+
+#quickBar li a {
+  background-color: transparent;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+}
+#quickBar li a:hover {background-color: #000}
+
+#quickBar li a > img {
+  max-width: 100%;
+  height:auto;
+}
+
+
+.layout-flex .toolbar {position:relative;}
+.ilFormContainer {
+  position:absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  background-color: rgba(0,0,0,0.5);
+  padding: 15px;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+.ilForm {
+  display: block;
+}
+.ilForm > h3 {
+  color: #fff;
+  margin: 0 0 5px;
+}
+.ilForm textarea {
+  display: block;
+  width: 100%;
+  min-height: 100px;
+  padding: 15px;
+  backgorund: #fff;
+  color: #111;
+}
+.ilForm > input[type=submit] {
+  margin-top: 15px;
+  width: 100%;
+  display: block;
+  color: #000;
+  line-height: 1em;
+  font-size: 14px;
+  padding: 1em;
+  border-radius: 0;
+}
+.ilForm > input[type=submit]:focus {
+  background: #eee;
+  color: #000;
+  outline: 0;
+}
+.ilAlert:not(:empty) {
+  color: #fff;
+  margin: 15px 0 0;
+}
