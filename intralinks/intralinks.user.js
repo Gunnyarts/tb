@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         IntraLinks
-// @version      0.2
+// @version      0.3
 // @description  Convenient links in the left side menu
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
 // @updateURL    http://gunnyarts.github.io/tb/intralinks/intralinks.user.js
-// @downloadURL    http://gunnyarts.github.io/tb/intralinks/intralinks.user.js
+// @downloadURL  http://gunnyarts.github.io/tb/intralinks/intralinks.user.js
 // @grant        none
 // ==/UserScript==
 
