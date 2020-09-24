@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      1.33
+// @version      1.34
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -137,7 +137,7 @@
                 clearInterval(itv)
                 el.scrollBy(0,100000)
                 document.getElementById('TAGDIV').removeEventListener('click', scrollToTop)
-                if (getTag()){
+                if (getTag() || document.querySelector('.conversation__stream').firstElementChild.querySelector('.o__admin') != null){
                     document.querySelector('.inbox__conversation-controls__pane-selector.tabs > .tabs__tab:nth-of-type(1)').click()
                 }
             }
