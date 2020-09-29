@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      1.34
+// @version      1.35
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -120,10 +120,10 @@
 
     // detect lazyload
     function detect_lazyload(){
-        if (document.querySelector('.conversation__stream').firstElementChild.classList[0] == "sp__3"){
-            return true
-        } else {
+        if (document.querySelector('.conversation__stream').firstElementChild.classList[0] == "ember-view"){
             return false
+        } else {
+            return true
         }
     }
 
