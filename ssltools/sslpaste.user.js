@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         SSL Copy
+// @name         SSL Paste
 // @namespace    http://gunnyarts.com
 // @version      1.0
 // @description  I'm lazy. Paste all three SSL parts in one go - click button or press F2
