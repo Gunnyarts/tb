@@ -5,8 +5,8 @@
 // @description  I'm lazy. Copy all three SSL parts in one go - click button or press F2
 // @author       Dennis Jensen
 // @match        https://netadmin.zitcom.dk/ssl/*
-// @updateURL    http://gunnyarts.github.io/tb/sslcopy/sslcopy.user.js
-// @downloadURL  http://gunnyarts.github.io/tb/sslcopy/sslcopy.user.js
+// @updateURL    http://gunnyarts.github.io/tb/ssltools/sslcopy.user.js
+// @downloadURL  http://gunnyarts.github.io/tb/ssltools/sslcopy.user.js
 // @grant        none
 // ==/UserScript==
 
