@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SSL CSR Request
 // @namespace    http://gunnyarts.com
-// @version      1.1
+// @version      1.2
 // @description  I'm lazy. Insert domain and CSR is generated
 // @author       Dennis Jensen
 // @match        https://netadmin.zitcom.dk/ssl/create/
