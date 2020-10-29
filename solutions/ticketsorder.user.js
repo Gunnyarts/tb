@@ -36,7 +36,7 @@
 				card[i].classList.add("migration")
 			} else if (title.textContent.includes("Bestillinger")){
 				card[i].classList.add("bestillinger")
-			} else if (title.textContent.includes("xlweb")){
+			} else if (title.textContent.includes("XLweb")){
 				card[i].classList.add("xlweb")
 			}
 		}
