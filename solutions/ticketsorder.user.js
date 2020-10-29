@@ -43,7 +43,7 @@
 	}
 
 	let styleEl = document.createElement("style")
-	styleEl.innerHTML = "div#members{display:flex;flex-flow:column}div#members>.card{order:10}div#members>.card.current-user{order:1}div#members>.card.retention{order:2}div#members>.card.bestillinger{order:3}div#members>.card.migration{order:4}div#members>.card.retention{order:5}"
+	styleEl.innerHTML = "div#members{display:flex;flex-flow:column}div#members>.card{order:10}div#members>.card.current-user{order:1}div#members>.card.xlweb{order:2}div#members>.card.bestillinger{order:3}div#members>.card.migration{order:4}div#members>.card.retention{order:5}"
 	document.body.appendChild(styleEl)
 
 })();
