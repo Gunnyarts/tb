@@ -36,12 +36,14 @@
 				card[i].classList.add("migration")
 			} else if (title.textContent.includes("Bestillinger")){
 				card[i].classList.add("bestillinger")
+			} else if (title.textContent.includes("xlweb")){
+				card[i].classList.add("xlweb")
 			}
 		}
 	}
 
 	let styleEl = document.createElement("style")
-	styleEl.innerHTML = "div#members{display:flex;flex-flow:column}div#members>.card{order:10}div#members>.card.current-user{order:1}div#members>.card.bestillinger{order:2}div#members>.card.migration{order:3}div#members>.card.retention{order:4}"
+	styleEl.innerHTML = "div#members{display:flex;flex-flow:column}div#members>.card{order:10}div#members>.card.current-user{order:1}div#members>.card.retention{order:2}div#members>.card.bestillinger{order:3}div#members>.card.migration{order:4}div#members>.card.retention{order:5}"
 	document.body.appendChild(styleEl)
 
 })();
