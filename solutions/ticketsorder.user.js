@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Solutions Ticket Order
 // @namespace    http://gunnyarts.com
-// @version      1.0
+// @version      1.01
 // @description  Reorder ticket inboxes
 // @author       Dennis Jensen
 // @match        https://solutions.zitcom.dk/intercom/department/webshop/
