@@ -5,8 +5,8 @@
 // @description  Reorder ticket inboxes
 // @author       Dennis Jensen
 // @match        https://solutions.zitcom.dk/intercom/department/webshop/
-// @updateURL    http://gunnyarts.github.io/tb/solutions/ticketorder.user.js
-// @downloadURL  http://gunnyarts.github.io/tb/solutions/ticketorder.user.js
+// @updateURL    http://gunnyarts.github.io/tb/solutions/ticketsorder.user.js
+// @downloadURL  http://gunnyarts.github.io/tb/solutions/ticketsorder.user.js
 // @grant        none
 // ==/UserScript==
 
