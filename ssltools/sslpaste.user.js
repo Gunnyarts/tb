@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         SSL Paste
 // @namespace    http://gunnyarts.com
-// @version      1.0
+// @version      1.1
 // @description  I'm lazy. Paste all three SSL parts in one go - click button or press F2
 // @author       Dennis Jensen
-// @match        https://superadmin.shopfactory.io/?ssl&solution=*&domain=*
+// @match        https://superadmin.shopfactory.io/?ssl*
 // @updateURL    http://gunnyarts.github.io/tb/ssltools/sslpaste.user.js
 // @downloadURL  http://gunnyarts.github.io/tb/ssltools/sslpaste.user.js
 // @grant        none
