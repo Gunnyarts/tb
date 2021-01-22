@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SSL Paste
 // @namespace    http://gunnyarts.com
-// @version      1.1
+// @version      1.2
 // @description  I'm lazy. Paste all three SSL parts in one go - click button or press F2
 // @author       Dennis Jensen
 // @match        https://superadmin.shopfactory.io/?ssl*
@@ -12,6 +12,7 @@
 
 (function() {
     'use strict';
+  // add paste button
 	let container, el = document.createElement("a")
 	el.setAttribute("href", "#")
 		el.setAttribute("id", "pasteCert")
@@ -27,6 +28,17 @@
 		e.preventDefault()
 		pasteSSL(container)
 	})
+
+  // add "to edit" button
+  let get = {}
+  let params = location.href.split("?")[1].split("&")
+  params.map(function(x){let a = x.split("=");get[a[0]] = a[1]})
+  let editLink = document.createElement("a")
+  editLink.setAttribute("href", "?edit&solution="+get.solution)
+  editLink.setAttribute("style", "display:inline-block;margin-left:5px;padding:5px;")
+  editLink.textContent = "Edit"
+  let h1 = document.querySelector("h1")
+  h1.appendChild(editLink)
 
 	// F2 keyboard shortcut
 	document.addEventListener('keyup', keypress)
