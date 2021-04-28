@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SSL Copy
 // @namespace    http://gunnyarts.com
-// @version      1.0
+// @version      1.1
 // @description  I'm lazy. Copy all three SSL parts in one go - click button or press F2
 // @author       Dennis Jensen
 // @match        https://netadmin.zitcom.dk/ssl/*
@@ -75,3 +75,4 @@
       document.body.removeChild(msg)
     }, 1000)
   }
+})();
