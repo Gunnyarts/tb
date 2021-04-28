@@ -13,7 +13,7 @@
 (function() {
     'use strict';
 
-	let buttonRow = document.getElementById("changeStatus").parentElement
+	let buttonRow = document.querySelector("span.ssl-cert > .row > .col")
 
 	let button = document.createElement("a")
 	button.setAttribute("href", "#")
@@ -75,4 +75,3 @@
       document.body.removeChild(msg)
     }, 1000)
   }
-})();
