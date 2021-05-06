@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Intralogger for Ecom
-// @namespace    http://tampermonkey.net/
+// @namespace    https://gunnyarts.github.io
 // @version      1.0.3
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
