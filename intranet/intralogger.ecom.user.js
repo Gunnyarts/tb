@@ -1,12 +1,10 @@
 // ==UserScript==
 // @name         Intralogger for Ecom
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
-// @updateURL    http://gunnyarts.github.io/tb/intranet/intralogger.ecom.user.js
-// @downloadURL  http://gunnyarts.github.io/tb/intranet/intralogger.ecom.user.js
 // @grant        none
 // ==/UserScript==
 (function() {
@@ -113,7 +111,7 @@
         loggingform.addEventListener("submit", function(e){
             e.preventDefault()
             let vals = []
-            for (let [key, value] of new FormData(this)) { vals.push(key+"="+value) }
+            for (let [key, value] of new FormData(this)) {if (key == "user_comment" && !categoryarray.includes(value)){alert("Vælg en kategori fra listen.", 1000); return false} vals.push(key+"="+value) }
             let data = vals.join("&")
             data += "&js=true"
             var xhr = new XMLHttpRequest()
@@ -156,9 +154,18 @@
             generateForm()
         }, timeout)
     }
+    function alert(message, timeout){
+        let p = document.createElement("p")
+        p.id = "kaldreg_alert"
+        p.textContent = message
+        container.appendChild(p)
+        setTimeout(function(){
+            container.removeChild(p)
+        }, timeout)
+    }
 
     let style = document.createElement("style")
-    style.innerHTML = "#kaldreg_form > input[type=submit] {margin-top:5px;} #logFormContainer {padding: 5px; text-align: center} #logFormContainer > h3 {font-size: 1.2em} #kaldreg_form > a {color:#ccc;display:inline-block;margin-top:3px;font-size:0.8em}"
+    style.innerHTML = "#kaldreg_alert  #kaldreg_form > input[type=submit] {margin-top:5px;} #logFormContainer {padding: 5px; text-align: center} #logFormContainer > h3 {font-size: 1.2em} #kaldreg_form > a {color:#ccc;display:inline-block;margin-top:3px;font-size:0.8em}"
     document.body.appendChild(style)
 
 })();
