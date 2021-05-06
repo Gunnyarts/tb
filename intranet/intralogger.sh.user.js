@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Intralogger for SH
-// @namespace    https://gunnyarts.github.io
+// @namespace    https://gunnyarts.github.io/tb/
 // @version      1.0.4
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen

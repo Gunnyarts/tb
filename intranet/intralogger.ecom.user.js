@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Intralogger for Ecom
-// @namespace    https://gunnyarts.github.io
+// @namespace    https://gunnyarts.github.io/tb/
 // @version      1.0.3
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
