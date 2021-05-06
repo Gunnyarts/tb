@@ -5,8 +5,8 @@
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
-// @updateURL    http://gunnyarts.github.io/tb/intranet/intralogger.ecom.user.js
-// @downloadURL  http://gunnyarts.github.io/tb/intranet/intralogger.ecom.user.js
+// @updateURL    https://gunnyarts.github.io/tb/intranet/intralogger.ecom.user.js
+// @downloadURL  https://gunnyarts.github.io/tb/intranet/intralogger.ecom.user.js
 // @grant        none
 // ==/UserScript==
 (function() {
