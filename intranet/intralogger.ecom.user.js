@@ -1,10 +1,12 @@
 // ==UserScript==
 // @name         Intralogger for Ecom
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
+// @updateURL    http://gunnyarts.github.io/tb/intranet/intralogger.ecom.user.js
+// @downloadURL  http://gunnyarts.github.io/tb/intranet/intralogger.ecom.user.js
 // @grant        none
 // ==/UserScript==
 (function() {
