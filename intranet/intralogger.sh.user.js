@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intralogger for SH
 // @namespace    http://tampermonkey.net/
-// @version      1.0.2
+// @version      1.0.3
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
@@ -150,9 +150,13 @@
     }
 
     function logSubmitted(message, timeout){
-        container.innerHTML = "<p>"+message+"</p>"
+        let form = document.getElementById("kaldreg_form")
+        let p = document.createElement("p")
+        p.innerHTML = message
+        container.removeChild(form)
+        container.appendChild(p)
         setTimeout(function(){
-            container.innerHTML = ""
+            container.removeChild(p)
             generateForm()
         }, timeout)
     }
