@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intralogger for SH
 // @namespace    https://gunnyarts.github.io/tb/
-// @version      1.0.4
+// @version      1.0.5
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
@@ -104,6 +104,7 @@
             if(a.length == 1 && a[0].needscomment == "true") {
                 input.setAttribute("required", "required")
                 input.style.display = "block"
+                input.focus()
             } else {
                 input.value = ""
                 input.removeAttribute("required")
