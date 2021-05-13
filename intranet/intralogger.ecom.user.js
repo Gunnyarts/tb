@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intralogger for Ecom
 // @namespace    https://gunnyarts.github.io/tb/
-// @version      1.0.5
+// @version      1.0.6
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
@@ -16,6 +16,7 @@
     const kaldreg_link = "https://supportmon.zitcom.dk/shopkald/"
     const category_link = kaldreg_link + "include/get_categories.php"
     const submit_link = kaldreg_link + "include/get_response.php"
+    const retentionLink = "https://teambluegroup-my.sharepoint.com/:x:/g/personal/soeren_kristensen_team_blue/EROixwnSMXxMleePOi4pcJQB3BzpjxL9mXytCps04ciPWg?e=sNQVpI"
 
     // createContainer
     let menu = document.querySelector('.content-container > .menu')
@@ -114,7 +115,14 @@
         loggingform.addEventListener("submit", function(e){
             e.preventDefault()
             let vals = []
-            for (let [key, value] of new FormData(this)) {if (key == "user_comment" && !categoryarray.includes(value)){alert("Vælg en kategori fra listen.", 1000); return false} vals.push(key+"="+encodeURIComponent(value)) }
+            let isRetention = false
+            for (let [key, value] of new FormData(this)) {
+              if (key == "user_comment"){
+                if (!categoryarray.includes(value)){alert("Vælg en kategori fra listen.", 1000); return false}
+                if (value.match(/(?<=\s|^|\W)retention(?=\s|$|\W)/i)){isRetention=true}
+              }
+              vals.push(key+"="+encodeURIComponent(value))
+            }
             let data = vals.join("&")
             data += "&js=true"
             var xhr = new XMLHttpRequest()
@@ -126,6 +134,9 @@
                     if (xhr.status === 200) {
                         if (xhr.responseText == ""){
                             logSubmitted("Kald registreret!", 750)
+                            if (isRetention){
+                              window.open(retentionLink,'_blank');
+                            }
                         } else {
                             console.log(xhr.responseText)
                             logSubmitted(xhr.responseText, 2000)
