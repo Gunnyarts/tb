@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intralogger for Ecom
 // @namespace    https://gunnyarts.github.io/tb/
-// @version      1.0.4
+// @version      1.0.5
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
@@ -114,7 +114,7 @@
         loggingform.addEventListener("submit", function(e){
             e.preventDefault()
             let vals = []
-            for (let [key, value] of new FormData(this)) {if (key == "user_comment" && !categoryarray.includes(value)){alert("Vælg en kategori fra listen.", 1000); return false} vals.push(key+"="+value) }
+            for (let [key, value] of new FormData(this)) {if (key == "user_comment" && !categoryarray.includes(value)){alert("Vælg en kategori fra listen.", 1000); return false} vals.push(key+"="+encodeURIComponent(value)) }
             let data = vals.join("&")
             data += "&js=true"
             var xhr = new XMLHttpRequest()

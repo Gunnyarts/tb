@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intralogger for SH
 // @namespace    https://gunnyarts.github.io/tb/
-// @version      1.0.5
+// @version      1.0.6
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
@@ -119,7 +119,7 @@
             for (let [key, value] of new FormData(this)) {
               if (key == "user_comment" && !categoryarray.includes(value)){alert("Vælg en kategori fra listen.", 1000); return false}
               if (key == "user_comment" && value.match(/(?<=\s|^|\W)retention(?=\s|$|\W)/i)){isRetention=true}
-              vals.push(key+"="+value)
+              vals.push(key+"="+encodeURIComponent(value))
             }
 
             let data = vals.join("&")
