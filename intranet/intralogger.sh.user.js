@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intralogger for SH
 // @namespace    https://gunnyarts.github.io/tb/
-// @version      1.0.5
+// @version      1.0.6
 // @description  Log calls from the intranet!
 // @author       Dennis Jensen
 // @match        https://intranet.zitcom.dk/*
@@ -117,11 +117,12 @@
             let vals = []
             let isRetention = false
             for (let [key, value] of new FormData(this)) {
-              if (key == "user_comment" && !categoryarray.includes(value)){alert("Vælg en kategori fra listen.", 1000); return false}
-              if (key == "user_comment" && value.match(/(?<=\s|^|\W)retention(?=\s|$|\W)/i)){isRetention=true}
-              vals.push(key+"="+value)
+              if (key == "user_comment"){
+                if (!categoryarray.includes(value)){alert("Vælg en kategori fra listen.", 1000); return false}
+                if (value.match(/(?<=\s|^|\W)retention(?=\s|$|\W)/i)){isRetention=true}
+              }
+              vals.push(key+"="+encodeURIComponent(value))
             }
-
             let data = vals.join("&")
             data += "&js=true"
             var xhr = new XMLHttpRequest()
@@ -133,7 +134,9 @@
                     if (xhr.status === 200) {
                         if (xhr.responseText == ""){
                             logSubmitted("Kald registreret!", 750)
-                            window.open(retentionLink,'_blank');
+                            if (isRetention){
+                              window.open(retentionLink,'_blank');
+                            }
                         } else {
                             console.log(xhr.responseText)
                             logSubmitted(xhr.responseText, 2000)
