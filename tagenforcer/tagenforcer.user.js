@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      1.35
+// @version      1.36
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -146,7 +146,7 @@
 
     // trigger add tag
     function addTag(){
-        let first_element = document.querySelector('.conversation__stream').firstElementChild
+        let first_element = document.querySelector(".conversation__bubble-container.o__user-comment")
         let tagElement = getTagElement()
         if (first_element.classList[0] == "sp__3" && !getTag()){
            console.log('Detected lazyload and no tags - scrolling up to look')
