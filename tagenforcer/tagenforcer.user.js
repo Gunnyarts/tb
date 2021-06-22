@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      1.36
+// @version      1.37
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -181,8 +181,8 @@
             tagdiv.addEventListener('click', scrollToTop)
         } else {
             tagdiv.removeEventListener('click', scrollToTop)
+            tagdiv.addEventListener('click', addTag)
         }
-        tagdiv.addEventListener('click', addTag)
     }
 
     let style = document.createElement("style")
