@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      1.37
+// @version      2.00
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -185,8 +185,197 @@
         }
     }
 
+    /**********************/
+    /* Intercom Signature */
+    /**********************/
+
+        // Check ready state
+    function checkReady(){
+        let intervalButtons = setInterval(function(){
+            if (document.querySelector(".js__conversation-controls-buttons") != null){
+                init()
+                clearInterval(intervalButtons)
+            }
+        }, 1000)
+        let intervalSignature = setInterval(function(){
+            if (typeof intercomSettings === "object"){
+                updateButtons()
+                clearInterval(intervalSignature)
+            }
+        }, 1000)
+    }
+    checkReady()
+
+    /* Button functions */
+    function newEl(options){
+        let el = document.createElement(options.element)
+        el.className = options.class
+        el.id = options.id
+        el.textContent = options.text
+        if (options.attributes){
+            options.attributes.map(x => el.setAttribute(x[0], x[1]))
+        }
+        if (options.events){
+            options.events.map(x => el.addEventListener(x[0], x[1]))
+        }
+        return el
+    }
+
+    function contentEmpty(){
+        let isNote = document.querySelector(".inbox__conversation-controls__pane-selector.tabs > a.o__selected").dataset.intercomTarget == "note-tab"
+        if (isNote){
+            return document.querySelector(".conversation__text.o__note .embercom-prosemirror-composer-editor").textContent == ""
+        } else {
+            return document.querySelector(".conversation__text:not(.o__note) .embercom-prosemirror-composer-editor").textContent == ""
+        }
+    }
+    function switchTabs(){
+        setTimeout(function(){
+            document.querySelector(".embercom-prosemirror-composer-editor").addEventListener("keyup", updateButtons)
+            updateButtons(true)
+        },200)
+    }
+
+    function sendCloseClick(e){
+        insertSignature()
+        setTimeout(function(){document.querySelector(".js__conversation-controls-buttons > span button").click()},200)
+    }
+    function sendClick(e){
+        insertSignature()
+        setTimeout(function(){document.querySelector(".js__conversation-controls-buttons > div button").click()},200)
+    }
+
+    function updateButtons(tabswitch = null){
+        let customButtons = document.getElementById("customBtnContainer")
+        let controlContainer = document.querySelector(".js__conversation-controls-buttons")
+        let currentTab = document.querySelector(".inbox__conversation-controls__pane-selector.tabs > a.o__selected")
+        let editor = document.querySelector(".embercom-prosemirror-composer-editor")
+        if (customButtons){
+            if (customButtons.children.length != controlContainer.children.length || tabswitch){
+                customButtons.remove()
+                customButtons = null
+            } else {
+                if (contentEmpty() || typeof intercomSettings !== "object"){
+                    customButtons.querySelectorAll("button").forEach(function(x){x.disabled = true; x.classList.add("o__disabled")})
+                } else {
+                    customButtons.querySelectorAll("button").forEach(function(x){x.disabled = false; x.classList.remove("o__disabled")})
+                }
+            }
+        }
+        if (!customButtons){
+            // Generate custom buttons
+            let right = document.querySelector(".inbox__conversation-controls__info-area > .u__right")
+            let customSendCloseBtn = null
+            if (document.querySelector(".js__conversation-controls-buttons > span button")){
+                customSendCloseBtn = newEl({
+                    element: "button",
+                    class: "btn o__secondary",
+                    id: "custom_send_close_btn",
+                    text: "Send & close",
+                    events: [
+                        ["click", sendCloseClick]
+                    ]
+                })
+                if (contentEmpty() || typeof intercomSettings !== "object"){
+                    customSendCloseBtn.disabled = true
+                    customSendCloseBtn.classList.add("o__disabled")
+                }
+            }
+            let sendBtnText = "Send"
+            if (currentTab.dataset.intercomTarget == "note-tab") sendBtnText = "Add note"
+            let customSendBtn = newEl({
+                element: "button",
+                class: "btn o__primary",
+                id: "custom_send_btn",
+                text: sendBtnText,
+                events: [
+                    ["click", sendClick]
+                ]
+            })
+            if (contentEmpty() || typeof intercomSettings !== "object"){
+                customSendBtn.disabled = true
+                customSendBtn.classList.add("o__disabled")
+            }
+
+            let customBtnContainer = newEl({
+                element: "div",
+                class: "customButtons",
+                id: "customBtnContainer",
+                text: ""
+            })
+
+            // add buttons to the button container
+            if (customSendCloseBtn){
+                customBtnContainer.appendChild(customSendCloseBtn)
+            }
+            customBtnContainer.appendChild(customSendBtn)
+            // add button container to the editor
+            right.appendChild(customBtnContainer)
+
+        }
+    }
+    /* Signature functions */
+
+    function isEmail (){
+        // check if last message from customer is an email
+        let lastComment = document.querySelector(".conversation__stream > span[data-intercom-target=last-user-comment]")
+        if (lastComment){
+        let svg = lastComment.querySelector(".conversation__bubble__meta .interface-icon")
+        return svg.className.baseVal.includes("email")
+        } else {
+            return false
+        }
+    }
+    function getSurvey(){
+        // get survey ID from brand URL
+        let surveys = {
+            "dkxsf7d2": "44d1079e1c84bdff", // DanDomain
+            "osjokbhp": "f616373baa5b1358", // Scannet
+            "abemyq6a": "283410e7f2b7553b" // Curanet
+        }
+        let survey = surveys[location.pathname.split("/")[3]]
+        if (survey){
+            return survey
+        } else {
+            return false
+        }
+    }
+    function surveyLink(){
+        // build the survey link
+        let email = document.querySelector(".profile-sidebar-section__current-profile > div > div > div:nth-child(2) > div > div:nth-child(1)  div[data-attribute=Email] span.attribute__value-label").textContent.trim()
+        let supporter = intercomSettings.name.toLowerCase().replace(" ",".")
+        let path = location.pathname.split("/")
+        let conversation = ""
+        if (path[path.length - 1] == "") path.pop()
+        if (path[path.length-2] == "conversations" || path[path.length-2] == "conversation"){
+            conversation = path[path.length - 1]
+        } else {
+            console.log("Tried sending survey signature, but this is not a conversation.")
+            return false
+        }
+        return "https://survey.survicate.com/"+getSurvey()+"/?p=intercom&s="+supporter+"&email="+email+"&c="+conversation
+    }
+    function insertSignature(){
+        // check if replying to email in relevant brand. if so, add signature to message
+        if (isEmail() && surveyLink() && getSurvey()){
+            let editor = document.querySelector(".embercom-prosemirror-composer-editor")
+            let signatureContent = "<p><br />------</p><p>Vil du hjælpe os med at yde en bedre service?<br />Udfyld vores spørgeskema <a href=\""+surveyLink()+"\" target=\"_blank\">her</a> - det tager under 1 minut!<p>"
+            editor.innerHTML += signatureContent
+        }
+    }
+
+    /* Initialize signature script */
+    function init(){
+        document.querySelector(".embercom-prosemirror-composer-editor").addEventListener("keyup", updateButtons)
+        document.querySelectorAll(".inbox__conversation-controls__pane-selector.tabs > a").forEach(function(x){x.addEventListener("click", switchTabs)})
+        document.querySelector(".js__conversation-controls-buttons").style.display = "none"
+        updateButtons()
+    }
+
+    // Insert styles
+
     let style = document.createElement("style")
-    style.innerHTML = "<style type=\"text/css\">#TAGDIV:empty{display:none}#TAGDIV{margin:0 15px;border-radius:5px;padding:5px;line-height:1;position:relative;z-index:0;cursor:pointer;}#TAGDIV.hasTag{background-color:#63b32d;color:#fff;font-size:12px}#TAGDIV.noTag{background-color:#e64646;color:#fff;font-weight:700;}#TAGDIV.lazyloadDetected{background-color:#999;color:#fff;}</style>"
+    style.innerHTML = "<style type=\"text/css\">#TAGDIV:empty{display:none}#TAGDIV{margin:0 15px;border-radius:5px;padding:5px;line-height:1;position:relative;z-index:0;cursor:pointer;}#TAGDIV.hasTag{background-color:#63b32d;color:#fff;font-size:12px}#TAGDIV.noTag{background-color:#e64646;color:#fff;font-weight:700;}#TAGDIV.lazyloadDetected{background-color:#999;color:#fff;}div#customBtnContainer button+button{margin-left:10px}div#customBtnContainer{position:relative;bottom:5px;right:5px}</style>"
     document.body.appendChild(style)
 
 })();
