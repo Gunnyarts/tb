@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      2.00
+// @version      2.01
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -357,7 +357,8 @@
     }
     function insertSignature(){
         // check if replying to email in relevant brand. if so, add signature to message
-        if (isEmail() && surveyLink() && getSurvey()){
+        let isNote = document.querySelector(".inbox__conversation-controls__pane-selector.tabs > a.o__selected").dataset.intercomTarget == "note-tab"
+        if (isEmail() && surveyLink() && getSurvey() && !isNote){
             let editor = document.querySelector(".embercom-prosemirror-composer-editor")
             let signatureContent = "<p><br />------</p><p>Vil du hjælpe os med at yde en bedre service?<br />Udfyld vores spørgeskema <a href=\""+surveyLink()+"\" target=\"_blank\">her</a> - det tager under 1 minut!<p>"
             editor.innerHTML += signatureContent
