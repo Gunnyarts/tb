@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      2.01
+// @version      2.02
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -372,7 +372,7 @@
         document.querySelector(".js__conversation-controls-buttons").style.display = "none"
         updateButtons()
     }
-
+    let interval = setInterval(init, 1000)
     // Insert styles
 
     let style = document.createElement("style")
