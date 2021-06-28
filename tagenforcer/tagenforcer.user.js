@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      2.02
+// @version      2.03
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -223,10 +223,14 @@
 
     function contentEmpty(){
         let isNote = document.querySelector(".inbox__conversation-controls__pane-selector.tabs > a.o__selected").dataset.intercomTarget == "note-tab"
+        let editor = document.querySelector(".conversation__text:not(.o__note) .embercom-prosemirror-composer-editor")
         if (isNote){
-            return document.querySelector(".conversation__text.o__note .embercom-prosemirror-composer-editor").textContent == ""
+            editor = document.querySelector(".conversation__text.o__note .embercom-prosemirror-composer-editor")
+        }
+        if (editor.textContent == "" && editor.querySelector("img") == null){
+            return true
         } else {
-            return document.querySelector(".conversation__text:not(.o__note) .embercom-prosemirror-composer-editor").textContent == ""
+            return false
         }
     }
     function switchTabs(){
