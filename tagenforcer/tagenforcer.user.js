@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      2.04
+// @version      2.05
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -290,7 +290,7 @@
             }
             let sendBtnText = "Send"
             if (isNote()) sendBtnText = "Add note"
-            if (isNewConversation) sendBtnText = "Send email"
+            if (isNewConversation()) sendBtnText = "Send email"
             let customSendBtn = newEl({
                 element: "button",
                 class: "btn o__primary",
