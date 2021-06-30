@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      2.03
+// @version      2.04
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -220,11 +220,15 @@
         }
         return el
     }
-
+    function isNote(){
+        return document.querySelector(".inbox__conversation-controls__pane-selector.tabs > a.o__selected[data-intercom-target=note-tab]")
+    }
+    function isNewConversation(){
+        return location.pathname.includes("new-conversation")
+    }
     function contentEmpty(){
-        let isNote = document.querySelector(".inbox__conversation-controls__pane-selector.tabs > a.o__selected").dataset.intercomTarget == "note-tab"
         let editor = document.querySelector(".conversation__text:not(.o__note) .embercom-prosemirror-composer-editor")
-        if (isNote){
+        if (isNote()){
             editor = document.querySelector(".conversation__text.o__note .embercom-prosemirror-composer-editor")
         }
         if (editor.textContent == "" && editor.querySelector("img") == null){
@@ -246,13 +250,12 @@
     }
     function sendClick(e){
         insertSignature()
-        setTimeout(function(){document.querySelector(".js__conversation-controls-buttons > div button").click()},200)
+        setTimeout(function(){console.log("clicking send button", document.querySelector(".js__conversation-controls-buttons > div button"));document.querySelector(".js__conversation-controls-buttons > div button").click()},200)
     }
 
     function updateButtons(tabswitch = null){
         let customButtons = document.getElementById("customBtnContainer")
         let controlContainer = document.querySelector(".js__conversation-controls-buttons")
-        let currentTab = document.querySelector(".inbox__conversation-controls__pane-selector.tabs > a.o__selected")
         let editor = document.querySelector(".embercom-prosemirror-composer-editor")
         if (customButtons){
             if (customButtons.children.length != controlContainer.children.length || tabswitch){
@@ -286,7 +289,8 @@
                 }
             }
             let sendBtnText = "Send"
-            if (currentTab.dataset.intercomTarget == "note-tab") sendBtnText = "Add note"
+            if (isNote()) sendBtnText = "Add note"
+            if (isNewConversation) sendBtnText = "Send email"
             let customSendBtn = newEl({
                 element: "button",
                 class: "btn o__primary",
@@ -346,23 +350,41 @@
     }
     function surveyLink(){
         // build the survey link
-        let email = document.querySelector(".profile-sidebar-section__current-profile > div > div > div:nth-child(2) > div > div:nth-child(1)  div[data-attribute=Email] span.attribute__value-label").textContent.trim()
+        let emailField = document.querySelector(".profile-sidebar-section__current-profile > div > div > div:nth-child(2) > div > div:nth-child(1)  div[data-attribute=Email] span.attribute__value-label")
+        let email = null
+        if (isNewConversation()) {
+            emailField = document.querySelector(".conversation__inbox__current-context div[data-name=Email]").parentElement.parentElement
+            if (emailField.querySelector("input")){
+                email = emailField.querySelector("input").value
+            }else {
+                email = emailField.querySelector(".attribute__label-wrapper div[data-value]").dataset.value
+            }
+        }
+        if (!email && emailField){
+            email = emailField.textContent.trim()
+        } else if (!email && !emailField) {
+            console.log("No email visible. Could not generate survey link")
+            return false
+        }
         let supporter = intercomSettings.name.toLowerCase().replace(" ",".")
         let path = location.pathname.split("/")
         let conversation = ""
-        if (path[path.length - 1] == "") path.pop()
-        if (path[path.length-2] == "conversations" || path[path.length-2] == "conversation"){
-            conversation = path[path.length - 1]
+        if (1){
+            conversation = "0"
         } else {
-            console.log("Tried sending survey signature, but this is not a conversation.")
-            return false
+            if (path[path.length - 1] == "") path.pop()
+            if (path[path.length-2] == "conversations" || path[path.length-2] == "conversation"){
+                conversation = path[path.length - 1]
+            } else {
+                console.log("Tried sending survey signature, but this is not a conversation.")
+                return false
+            }
         }
         return "https://survey.survicate.com/"+getSurvey()+"/?p=intercom&s="+supporter+"&email="+email+"&c="+conversation
     }
     function insertSignature(){
         // check if replying to email in relevant brand. if so, add signature to message
-        let isNote = document.querySelector(".inbox__conversation-controls__pane-selector.tabs > a.o__selected").dataset.intercomTarget == "note-tab"
-        if (isEmail() && surveyLink() && getSurvey() && !isNote){
+        if ((isNewConversation() || isEmail()) && surveyLink() && getSurvey() && !isNote()){
             let editor = document.querySelector(".embercom-prosemirror-composer-editor")
             let signatureContent = "<p><br />------</p><p>Vil du hjælpe os med at yde en bedre service?<br />Udfyld vores spørgeskema <a href=\""+surveyLink()+"\" target=\"_blank\">her</a> - det tager under 1 minut!<p>"
             editor.innerHTML += signatureContent
