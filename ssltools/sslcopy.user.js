@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SSL Copy
 // @namespace    http://gunnyarts.com
-// @version      1.1
+// @version      1.2
 // @description  I'm lazy. Copy all three SSL parts in one go - click button or press F2
 // @author       Dennis Jensen
 // @match        https://netadmin.zitcom.dk/ssl/*
@@ -25,7 +25,11 @@
 		copyCert()
 
 	})
-	buttonRow.appendChild(button)
+  if (buttonRow){
+      buttonRow.appendChild(button)
+  } else {
+      console.log("button row not found")
+  }
 
   function copyCert(){
     let certInfo = {}
