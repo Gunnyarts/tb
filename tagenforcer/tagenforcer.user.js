@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      2.05
+// @version      2.06
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -161,8 +161,8 @@
     function updateTag(args = {scroll:false, hideControls:true,tagClass:"noTag", tagMessage:""}) {
         let tag = getTag()
         let tagdiv = document.getElementById("TAGDIV")
-        let reply_tab = document.querySelector('.inbox__conversation-controls__pane-selector.tabs > .tabs__tab:nth-of-type(1)')
-        let note_tab = document.querySelector('.inbox__conversation-controls__pane-selector.tabs > .tabs__tab:nth-of-type(2)')
+        let reply_tab = document.querySelector('.inbox__conversation-controls__pane-selector.tabs > div.tabs__tab > a')
+        let note_tab = document.querySelector('.inbox__conversation-controls__pane-selector.tabs .tabs__tab[data-intercom-target=note-tab]')
         tagdiv.innerHTML = args.tagMessage
         tagdiv.className = args.tagClass
         if (args.hideControls){
