@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Intercom Tag Enforcer
 // @namespace    https://gunnyarts.com
-// @version      2.06
+// @version      2.07
 // @description  Check Intercom tags
 // @author       Dennis Jensen
 // @match        https://app.intercom.com/*
@@ -369,16 +369,12 @@
         let supporter = intercomSettings.name.toLowerCase().replace(" ",".")
         let path = location.pathname.split("/")
         let conversation = ""
-        if (1){
-            conversation = "0"
+        if (path[path.length - 1] == "") path.pop()
+        if (path[path.length-2] == "conversations" || path[path.length-2] == "conversation"){
+            conversation = path[path.length - 1]
         } else {
-            if (path[path.length - 1] == "") path.pop()
-            if (path[path.length-2] == "conversations" || path[path.length-2] == "conversation"){
-                conversation = path[path.length - 1]
-            } else {
-                console.log("Tried sending survey signature, but this is not a conversation.")
-                return false
-            }
+            console.log("Tried sending survey signature, but this is not a conversation.")
+            return false
         }
         return "https://survey.survicate.com/"+getSurvey()+"/?p=intercom&s="+supporter+"&email="+email+"&c="+conversation
     }
